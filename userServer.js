@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const { object } = require("webidl-conversions");
 const bodyParser = require("body-parser");
 const port = 5000;
-require("dotenv").config();
 
 
 const app = express();
