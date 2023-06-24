@@ -3,16 +3,19 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { object } = require("webidl-conversions");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const port = 5000;
 
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 
-// ||'mongodb://127.0.0.1:27017/ToDoApp'
 
 
-mongoose.connect(process.env.MONGODB_URI , { useUnifiedTopology: true, useNewUrlParser: true })
+
+mongoose.connect(process.env.MONGODB_URI ||'mongodb://127.0.0.1:27017/ToDoApp', { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
         console.log("Connected to db");
     })
