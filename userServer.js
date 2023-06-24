@@ -57,7 +57,7 @@ app.route("/sign")
         User.findOne({ username: req.body.username })
             .then((result) => {
                 if (result) {
-                    res.send("user Already exist")
+                    res.send({result : 'fail'})
                 } else {
                     let newUser = new User({
                         username: req.body.username,
@@ -65,15 +65,13 @@ app.route("/sign")
                         name: req.body.name
                     })
 
-                    console.log(req.body)
-
                     newUser.save().then((result, err) => {
                         if (err) {
                             console.log("----------Error---------\n" + err);
                             res.send("----------Error---------\n" + err);
                         } else {
                             console.log("Post Successful");
-                            res.send("Post Successful");
+                            res.send({result : 'success'});
                         }
                     })
                 }
