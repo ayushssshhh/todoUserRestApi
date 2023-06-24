@@ -15,7 +15,7 @@ app.use(cors());
 
 
 
-mongoose.connect(process.env.MONGODB_URI ||'mongodb://127.0.0.1:27017/ToDoApp', { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ToDoApp', { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
         console.log("Connected to db");
     })
@@ -55,18 +55,18 @@ app.route("/sign")
     .post((req, res) => {
 
         User.findOne({ username: req.body.username })
-            .then((result)=>{
-                if(result){
-                res.send("user Already exist")
-                }else{
+            .then((result) => {
+                if (result) {
+                    res.send("user Already exist")
+                } else {
                     let newUser = new User({
                         username: req.body.username,
                         password: req.body.password,
                         name: req.body.name
                     })
-        
+
                     console.log(req.body)
-        
+
                     newUser.save().then((result, err) => {
                         if (err) {
                             console.log("----------Error---------\n" + err);
@@ -82,18 +82,26 @@ app.route("/sign")
 
 
 app.route("/login/:username/:password")
-    .get((req , res) =>{
+    .get((req, res) => {
         let username = req.params.username;
         let password = req.params.password;
         console.log(username + " " + password)
 
-        User.findOne({username : username , password : password})
+        User.findOne({ username: username, password: password })
             .then((result) => {
-                if(result){
-                    res.send({result : 'success'})
-                } else{
-                    res.send({result : 'fail'})
-                }
+                if (result) {
+                    res.send({ user: 'success', pass: 'success' })
+                } else {
+                    User.findOne({ username: username, password: password })
+                        .then((result) => {
+                            if (result) {
+                                res.send({ user: 'success', pass: 'fail' })
+                            } else {
+                                res.send({ user: 'fail', pass: 'fail' })
+                            }
+                        })
+                    }
+                        
             })
     })
 
