@@ -90,7 +90,7 @@ app.route("/login/:username/:password")
                 if (result) {
                     res.send({ user: 'success', pass: 'success' })
                 } else {
-                    User.findOne({ username: username, password: password })
+                    User.findOne({ username: username })
                         .then((result) => {
                             if (result) {
                                 res.send({ user: 'success', pass: 'fail' })
